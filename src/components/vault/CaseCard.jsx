@@ -1,59 +1,66 @@
-import React from 'react';
-import { Download, FileText, Calendar } from 'lucide-react';
+import React, { useState } from 'react';
+import { ExternalLink, ChevronDown, ChevronUp, FileImage } from 'lucide-react';
 
 export default function CaseCard({ caseItem }) {
-  const handleDownload = () => {
-    alert(`Simulated Download: Starting transfer for ${caseItem.title} case package.`);
-  };
+  const [pagesOpen, setPagesOpen] = useState(false);
 
   return (
-    <div className="card p-6 space-y-5">
-      <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+    <div className="card overflow-hidden">
+      {/* Header */}
+      <div className="px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-surface-200">
         <div className="space-y-1">
-          <h3 className="text-lg font-serif font-bold text-navy-900">{caseItem.title}</h3>
-          <span className="badge badge-gold">{caseItem.type}</span>
+          <span className="badge badge-navy">{caseItem.label}</span>
+          <h3 className="text-lg font-serif font-bold text-navy-900 mt-1">{caseItem.title}</h3>
         </div>
-        <button onClick={handleDownload} className="btn-primary text-xs shrink-0">
-          <Download className="w-3.5 h-3.5" />
-          Download ({caseItem.fileSize})
-        </button>
+        <a
+          href={caseItem.driveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-primary text-xs shrink-0"
+        >
+          <ExternalLink className="w-3.5 h-3.5" />
+          Open in Google Drive
+        </a>
       </div>
 
-      <p className="text-sm text-text-secondary leading-relaxed">{caseItem.desc}</p>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 border-t border-surface-200 pt-5">
+      {/* Page preview toggle */}
+      {caseItem.pages?.length > 0 && (
         <div>
-          <h4 className="section-title mb-3">Prosecution Witnesses</h4>
-          <ul className="space-y-2">
-            {caseItem.witnesses.pros.map((w, i) => (
-              <li key={i} className="flex items-center gap-2 text-sm text-text-secondary">
-                <FileText className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-                {w}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h4 className="section-title mb-3">Defense Witnesses</h4>
-          <ul className="space-y-2">
-            {caseItem.witnesses.def.map((w, i) => (
-              <li key={i} className="flex items-center gap-2 text-sm text-text-secondary">
-                <FileText className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                {w}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+          <button
+            onClick={() => setPagesOpen(v => !v)}
+            className="w-full flex items-center justify-between px-5 py-3 text-sm text-text-secondary hover:bg-surface-50 transition-colors"
+          >
+            <span className="flex items-center gap-2">
+              <FileImage className="w-4 h-4 text-text-muted" />
+              Preview pages ({caseItem.pages.length} available)
+            </span>
+            {pagesOpen
+              ? <ChevronUp className="w-4 h-4 text-text-muted" />
+              : <ChevronDown className="w-4 h-4 text-text-muted" />}
+          </button>
 
-      <div className="flex items-center gap-3 text-[10px] text-text-muted border-t border-surface-100 pt-4">
-        <span className="flex items-center gap-1">
-          <Calendar className="w-3 h-3" />
-          Released: {caseItem.released}
-        </span>
-        <span>·</span>
-        <span>Official CRF-OC Sanctioned File</span>
-      </div>
+          {pagesOpen && (
+            <div className="border-t border-surface-100 px-5 py-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {caseItem.pages.map((url, idx) => (
+                <div key={idx} className="rounded-lg overflow-hidden border border-surface-200 bg-surface-50">
+                  <div className="px-2 py-1 border-b border-surface-200 text-[10px] text-text-muted font-medium">
+                    Page {idx + 1}
+                  </div>
+                  <img
+                    src={url}
+                    alt={`${caseItem.title} — page ${idx + 1}`}
+                    className="w-full h-auto"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+              <p className="col-span-full text-xs text-text-muted text-center pt-1">
+                For the full document, open in Google Drive above.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

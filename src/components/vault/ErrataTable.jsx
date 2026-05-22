@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const CATEGORIES = ['All', 'Stipulation', 'Officer Smith', 'Dr. Sterling', 'Exhibit'];
+const CATEGORIES = ['All', 'Stipulation', 'Witness', 'Exhibit', 'Other'];
 
 export default function ErrataTable({ erratas, searchQuery }) {
   const [errataFilter, setErrataFilter] = useState('All');
@@ -63,7 +63,9 @@ export default function ErrataTable({ erratas, searchQuery }) {
             ) : (
               <tr>
                 <td colSpan={5} className="px-5 py-10 text-center text-text-muted">
-                  No errata match your search or filter.
+                  {erratas.length === 0
+                    ? "No official errata have been published yet."
+                    : "No errata match your search or filter."}
                 </td>
               </tr>
             )}
