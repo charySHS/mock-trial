@@ -1,160 +1,162 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy-darkest: #050814;
-  --color-navy-dark: #0a1128;
-  --color-navy-medium: #121f45;
-  --color-navy-light: #1e295d;
-  
-  --color-gold-primary: #d4af37;
-  --color-gold-brass: #c5a880;
-  --color-gold-dark: #8c6e2d;
-  --color-gold-light: #f1e4c3;
-  
-  --font-serif: 'Cinzel', 'Playfair Display', Georgia, serif;
+  /* Navy accents */
+  --color-navy-900: #0c1225;
+  --color-navy-800: #111b3a;
+  --color-navy-700: #1a2754;
+  --color-navy-600: #243370;
+
+  /* Gold accents */
+  --color-gold-500: #c8a24e;
+  --color-gold-400: #d4af37;
+  --color-gold-300: #e3c768;
+  --color-gold-200: #f0dfa0;
+  --color-gold-100: #faf3dc;
+
+  /* Surface palette (light base) */
+  --color-surface-50: #fafafa;
+  --color-surface-100: #f4f4f5;
+  --color-surface-200: #e4e4e7;
+  --color-surface-300: #d4d4d8;
+
+  /* Text */
+  --color-text-primary: #18181b;
+  --color-text-secondary: #52525b;
+  --color-text-muted: #a1a1aa;
+
+  /* Functional */
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+  --color-info: #2563eb;
+
+  /* Fonts */
+  --font-serif: 'Cinzel', Georgia, serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* Custom CSS Classes Integrating with Tailwind v4 */
-:root {
-  --navy-darkest: #050814;
-  --navy-dark: #0a1128;
-  --navy-medium: #121f45;
-  --navy-light: #1e295d;
-  
-  --gold-primary: #d4af37;
-  --gold-brass: #c5a880;
-  --gold-dark: #8c6e2d;
-  --gold-light: #f1e4c3;
-  --gold-glow: rgba(212, 175, 55, 0.25);
-  
-  --slate-text: #e2e8f0;
-  --slate-muted: #94a3b8;
-  --slate-border: rgba(197, 168, 128, 0.15);
-  --glass-bg: rgba(10, 17, 40, 0.7);
-  --glass-blur: blur(12px);
-
-  --font-serif: 'Cinzel', 'Playfair Display', Georgia, serif;
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  
-  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
+/* ── Base ────────────────────────────────────────────── */
 body {
-  background-color: var(--navy-darkest);
-  color: var(--slate-text);
+  background-color: var(--color-surface-50);
+  color: var(--color-text-primary);
   font-family: var(--font-sans);
   overflow-x: hidden;
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(30, 41, 93, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(140, 110, 45, 0.08) 0%, transparent 55%),
-    radial-gradient(circle at 50% 50%, rgba(5, 8, 20, 0.5) 0%, rgba(5, 8, 20, 0.95) 100%);
-  background-attachment: fixed;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Scrollbar Customization */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--navy-darkest);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--navy-medium);
-  border-radius: 4px;
-  border: 2px solid var(--navy-darkest);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--gold-brass);
-}
-
-/* Typography Rules */
-h1, h2, h3, h4, h5, h6 {
+/* ── Typography ──────────────────────────────────────── */
+h1, h2, h3, h4 {
   font-family: var(--font-serif);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.01em;
 }
 
-/* UI Utilities */
-.gold-text {
-  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 50%, var(--gold-brass) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+/* ── Scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-surface-300); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
 
-.gold-gradient-border {
-  border: 1px solid transparent;
-  background: linear-gradient(var(--navy-dark), var(--navy-dark)) padding-box,
-              linear-gradient(135deg, var(--gold-brass) 0%, transparent 60%, var(--gold-primary) 100%) border-box;
-}
-
-.glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--slate-border);
+/* ── Card ────────────────────────────────────────────── */
+.card {
+  background: white;
+  border: 1px solid var(--color-surface-200);
   border-radius: 12px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: var(--transition-smooth);
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.04), 0 1px 2px -1px rgba(0,0,0,.03);
+  transition: box-shadow .2s ease, border-color .2s ease;
+}
+.card:hover {
+  box-shadow: 0 4px 12px 0 rgba(0,0,0,.06), 0 1px 3px -1px rgba(0,0,0,.04);
 }
 
-.glass-card:hover {
-  border-color: rgba(212, 175, 55, 0.3);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.05);
+/* ── Section Title ───────────────────────────────────── */
+.section-title {
+  @apply text-xs uppercase tracking-widest font-bold text-text-muted;
 }
 
-.legal-double-border {
-  border: 4px double var(--gold-brass);
+/* ── Badge ───────────────────────────────────────────── */
+.badge {
+  @apply inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full;
 }
+.badge-navy { @apply bg-navy-800 text-white; }
+.badge-gold { @apply bg-gold-100 text-gold-500 border border-gold-200; }
+.badge-success { @apply bg-emerald-50 text-emerald-700 border border-emerald-200; }
+.badge-danger { @apply bg-red-50 text-red-600 border border-red-200; }
+.badge-info { @apply bg-blue-50 text-blue-600 border border-blue-200; }
+.badge-muted { @apply bg-surface-100 text-text-secondary border border-surface-200; }
 
-/* Custom interactive buttons */
+/* ── Buttons ─────────────────────────────────────────── */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 font-semibold text-sm px-4 py-2.5 rounded-lg transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+.btn-primary {
+  @apply btn bg-navy-800 text-white hover:bg-navy-700 focus:ring-navy-600;
+}
 .btn-gold {
-  @apply bg-gradient-to-r from-gold-brass to-gold-primary text-navy-darkest font-serif font-bold uppercase tracking-wider px-6 py-3 rounded shadow-md cursor-pointer transition-all hover:scale-[1.02] hover:from-gold-primary hover:to-gold-light active:scale-[0.98] inline-flex items-center gap-2;
+  @apply btn bg-gradient-to-r from-gold-500 to-gold-400 text-navy-900 hover:from-gold-400 hover:to-gold-300 focus:ring-gold-400 font-bold shadow-sm;
 }
-
 .btn-outline {
-  @apply bg-transparent text-gold-brass border border-gold-brass font-serif font-semibold uppercase tracking-wider px-6 py-3 rounded cursor-pointer transition-all hover:bg-gold-brass/10 hover:text-gold-light hover:border-gold-light active:scale-[0.98] inline-flex items-center gap-2;
+  @apply btn bg-transparent text-navy-800 border border-surface-300 hover:bg-surface-100 hover:border-surface-300 focus:ring-navy-600;
+}
+.btn-ghost {
+  @apply btn bg-transparent text-text-secondary hover:bg-surface-100 hover:text-text-primary;
 }
 
-/* Input Styles */
-.input-gold {
-  @apply bg-navy-dark/50 border border-gold-brass/20 rounded px-4 py-3 text-slate-100 font-sans w-full transition-all focus:outline-none focus:border-gold-primary focus:shadow-[0_0_10px_rgba(212,175,55,0.25)] focus:bg-navy-dark/80;
+/* ── Form Inputs ─────────────────────────────────────── */
+.input {
+  @apply w-full bg-white border border-surface-300 rounded-lg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted transition-all focus:outline-none focus:ring-2 focus:ring-navy-600/20 focus:border-navy-700;
+}
+select.input {
+  @apply appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%23a1a1aa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>')] bg-[length:12px] bg-[right_12px_center] bg-no-repeat pr-8;
+}
+textarea.input {
+  @apply resize-none leading-relaxed;
 }
 
-/* Nav Link */
-.nav-link {
-  @apply relative font-serif text-xs tracking-widest uppercase text-slate-400 px-4 py-2 transition-all hover:text-gold-primary;
+/* ── Nav link ────────────────────────────────────────── */
+.nav-item {
+  @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all cursor-pointer;
+}
+.nav-item-default {
+  @apply nav-item text-text-secondary hover:bg-surface-100 hover:text-text-primary;
+}
+.nav-item-active {
+  @apply nav-item bg-navy-800 text-white shadow-sm;
 }
 
-.nav-link::after {
-  content: '';
-  @apply absolute bottom-0 left-4 right-4 h-[2px] bg-gradient-to-r from-transparent via-gold-primary to-transparent scale-x-0 transition-all;
+/* ── Progress Bar ────────────────────────────────────── */
+.progress-track {
+  @apply w-full bg-surface-200 rounded-full h-2 overflow-hidden;
+}
+.progress-fill {
+  @apply h-full rounded-full transition-all duration-700 ease-out;
 }
 
-.nav-link.active {
-  @apply text-gold-primary font-bold;
+/* ── Sidebar ─────────────────────────────────────────── */
+.sidebar {
+  @apply fixed left-0 top-0 bottom-0 w-[240px] bg-white border-r border-surface-200 flex flex-col z-40;
 }
 
-.nav-link.active::after {
-  @apply scale-x-100;
+/* ── Gold accent line ────────────────────────────────── */
+.gold-accent {
+  @apply bg-gradient-to-r from-gold-500 to-gold-300;
 }
 
-/* Card Generator Print Settings */
+/* ── Selection ───────────────────────────────────────── */
+::selection {
+  background: rgba(200, 162, 78, 0.2);
+  color: inherit;
+}
+
+/* ── Print (for member card) ─────────────────────────── */
 @media print {
-  body * {
-    visibility: hidden;
-  }
-  .printable-card-area, .printable-card-area * {
-    visibility: visible;
-  }
+  body * { visibility: hidden; }
+  .printable-card-area, .printable-card-area * { visibility: visible; }
   .printable-card-area {
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 3.375in;
-    height: 2.125in;
-    border: none;
-    box-shadow: none;
+    left: 0; top: 0;
+    width: 3.375in; height: 2.125in;
+    border: none; box-shadow: none;
   }
 }
