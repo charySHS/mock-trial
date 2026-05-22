@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy-darkest: #050814;
+  --color-navy-dark: #0a1128;
+  --color-navy-medium: #121f45;
+  --color-navy-light: #1e295d;
+  
+  --color-gold-primary: #d4af37;
+  --color-gold-brass: #c5a880;
+  --color-gold-dark: #8c6e2d;
+  --color-gold-light: #f1e4c3;
+  
+  --font-serif: 'Cinzel', 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Custom CSS Classes Integrating with Tailwind v4 */
+:root {
+  --navy-darkest: #050814;
+  --navy-dark: #0a1128;
+  --navy-medium: #121f45;
+  --navy-light: #1e295d;
+  
+  --gold-primary: #d4af37;
+  --gold-brass: #c5a880;
+  --gold-dark: #8c6e2d;
+  --gold-light: #f1e4c3;
+  --gold-glow: rgba(212, 175, 55, 0.25);
+  
+  --slate-text: #e2e8f0;
+  --slate-muted: #94a3b8;
+  --slate-border: rgba(197, 168, 128, 0.15);
+  --glass-bg: rgba(10, 17, 40, 0.7);
+  --glass-blur: blur(12px);
+
+  --font-serif: 'Cinzel', 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  background-color: var(--navy-darkest);
+  color: var(--slate-text);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(30, 41, 93, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(140, 110, 45, 0.08) 0%, transparent 55%),
+    radial-gradient(circle at 50% 50%, rgba(5, 8, 20, 0.5) 0%, rgba(5, 8, 20, 0.95) 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--navy-darkest);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--navy-medium);
+  border-radius: 4px;
+  border: 2px solid var(--navy-darkest);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-brass);
+}
+
+/* Typography Rules */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  letter-spacing: 0.03em;
+}
+
+/* UI Utilities */
+.gold-text {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 50%, var(--gold-brass) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gold-gradient-border {
+  border: 1px solid transparent;
+  background: linear-gradient(var(--navy-dark), var(--navy-dark)) padding-box,
+              linear-gradient(135deg, var(--gold-brass) 0%, transparent 60%, var(--gold-primary) 100%) border-box;
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--slate-border);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: var(--transition-smooth);
+}
+
+.glass-card:hover {
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.05);
+}
+
+.legal-double-border {
+  border: 4px double var(--gold-brass);
+}
+
+/* Custom interactive buttons */
+.btn-gold {
+  @apply bg-gradient-to-r from-gold-brass to-gold-primary text-navy-darkest font-serif font-bold uppercase tracking-wider px-6 py-3 rounded shadow-md cursor-pointer transition-all hover:scale-[1.02] hover:from-gold-primary hover:to-gold-light active:scale-[0.98] inline-flex items-center gap-2;
+}
+
+.btn-outline {
+  @apply bg-transparent text-gold-brass border border-gold-brass font-serif font-semibold uppercase tracking-wider px-6 py-3 rounded cursor-pointer transition-all hover:bg-gold-brass/10 hover:text-gold-light hover:border-gold-light active:scale-[0.98] inline-flex items-center gap-2;
+}
+
+/* Input Styles */
+.input-gold {
+  @apply bg-navy-dark/50 border border-gold-brass/20 rounded px-4 py-3 text-slate-100 font-sans w-full transition-all focus:outline-none focus:border-gold-primary focus:shadow-[0_0_10px_rgba(212,175,55,0.25)] focus:bg-navy-dark/80;
+}
+
+/* Nav Link */
+.nav-link {
+  @apply relative font-serif text-xs tracking-widest uppercase text-slate-400 px-4 py-2 transition-all hover:text-gold-primary;
+}
+
+.nav-link::after {
+  content: '';
+  @apply absolute bottom-0 left-4 right-4 h-[2px] bg-gradient-to-r from-transparent via-gold-primary to-transparent scale-x-0 transition-all;
+}
+
+.nav-link.active {
+  @apply text-gold-primary font-bold;
+}
+
+.nav-link.active::after {
+  @apply scale-x-100;
+}
+
+/* Card Generator Print Settings */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .printable-card-area, .printable-card-area * {
+    visibility: visible;
+  }
+  .printable-card-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3.375in;
+    height: 2.125in;
+    border: none;
+    box-shadow: none;
+  }
+}
