@@ -12,41 +12,7 @@ export default function CaseVault() {
   
   const containerRef = useRef(null);
 
-  const casePackets = [
-    {
-      title: "People v. Clark (2026 - Current)",
-      type: "Criminal - Cyberbullying & Threat of Violence",
-      desc: "This year's case involves a student charged under CA Penal Code sections for making criminal threats online. Key legal issues include digital authentication, free speech limitations (true threats), and cell tower tri-angulation.",
-      witnesses: {
-        pros: ["Officer Alexis Smith (Arresting Officer)", "Hayden Hayes (Victim)", "Dr. Casey Sterling (Forensic Psychiatrist)"],
-        def: ["Jordan Clark (Defendant)", "Sam Taylor (Mutual Friend)", "Dr. River Bennett (Digital Forensic Expert)"]
-      },
-      fileSize: "4.8 MB",
-      released: "August 15, 2026"
-    },
-    {
-      title: "People v. Cobey (2025)",
-      type: "Criminal - Murder & Toxic Exposure",
-      desc: "The defendant was charged with murder and reckless endangerment after a tenant died from toxic mold exposure in a managed apartment building. Examined landlord liability and expert testimony on toxicological analysis.",
-      witnesses: {
-        pros: ["Dr. Evelyn Gray", "Officer Reese Miller", "Pat Martinez"],
-        def: ["Jamie Cobey (Defendant)", "Dr. Terry Oakwood", "Chris Hernandez"]
-      },
-      fileSize: "4.2 MB",
-      released: "August 18, 2025"
-    },
-    {
-      title: "People v. Franks (2024)",
-      type: "Criminal - Robbery & Battery",
-      desc: "A robbery occurred in a high-end department store where the defendant was accused of stealing designer clothes and physically assaulting a security officer. Raised questions about eyewitness identification and circumstantial evidence.",
-      witnesses: {
-        pros: ["Officer Billie Rivera", "Kendall Reyes", "Dr. Alex Martinez"],
-        def: ["Taylor Franks (Defendant)", "Drew Bailey", "Dr. Morgan Vance"]
-      },
-      fileSize: "3.9 MB",
-      released: "August 20, 2024"
-    }
-  ];
+  const casePackets = caseData;
 
   const erratas = [
     { id: 1, case: "People v. Clark", target: "Stipulation 4", correction: "Add sentence: 'The IP address logs listed in Exhibit B are authenticated and belong to Jordan Clark's household router.'", date: "Sep 28, 2026", category: "Stipulation" },
