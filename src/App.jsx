@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Gavel, Home, Database, BookOpen, CreditCard, Sparkles, Menu, X } from 'lucide-react';
+import { Gavel, Home, Database, BookOpen, CreditCard, Sparkles, Menu, X, FolderOpen } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import CaseVault from './components/CaseVault';
 import RoleGuides from './components/RoleGuides';
 import MemberCard from './components/MemberCard';
 import Assistant from './components/Assistant';
+import Documents from './components/Documents';
 
 const tabs = [
   { id: 'dashboard', label: 'Dashboard', icon: Home },
   { id: 'vault', label: 'Case Vault', icon: Database },
   { id: 'guides', label: 'Role Guides', icon: BookOpen },
+  { id: 'docs', label: 'Documents', icon: FolderOpen },
   { id: 'card', label: 'Member Badge', icon: CreditCard },
   { id: 'assistant', label: 'AI Assistant', icon: Sparkles },
 ];
@@ -23,13 +25,12 @@ export default function App() {
     setMobileMenuOpen(false);
   };
 
-  const ActiveComponent = tabs.find(t => t.id === activeTab)?.component || Dashboard;
-  // Resolve component from tab id since we can't store components in the array cleanly
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard': return <Dashboard setActiveTab={handleTabChange} />;
       case 'vault': return <CaseVault />;
       case 'guides': return <RoleGuides />;
+      case 'docs': return <Documents />;
       case 'card': return <MemberCard />;
       case 'assistant': return <Assistant />;
       default: return <Dashboard setActiveTab={handleTabChange} />;
@@ -40,7 +41,6 @@ export default function App() {
     <div className="min-h-screen bg-surface-50">
       {/* ─── Desktop Sidebar ─── */}
       <aside className="sidebar hidden lg:flex">
-        {/* Logo */}
         <div className="px-5 pt-6 pb-4 border-b border-surface-200">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleTabChange('dashboard')}>
             <div className="bg-navy-800 p-2 rounded-lg text-gold-400 shadow-sm">
@@ -57,7 +57,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* Nav links */}
         <nav className="flex-1 px-3 py-4 space-y-1">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -75,7 +74,6 @@ export default function App() {
           })}
         </nav>
 
-        {/* Bottom */}
         <div className="px-4 py-4 border-t border-surface-200">
           <span className="text-[10px] font-mono text-text-muted block text-center">
             servite-mock-trial.org
@@ -100,7 +98,6 @@ export default function App() {
           </button>
         </div>
 
-        {/* Mobile dropdown */}
         {mobileMenuOpen && (
           <div className="bg-white border-b border-surface-200 px-3 pb-3 space-y-1">
             {tabs.map((tab) => {
@@ -127,7 +124,6 @@ export default function App() {
           {renderContent()}
         </div>
 
-        {/* Footer */}
         <footer className="border-t border-surface-200 mt-8">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-text-muted">
             <span>© 2026 Servite High School Mock Trial — CRF-OC Division</span>

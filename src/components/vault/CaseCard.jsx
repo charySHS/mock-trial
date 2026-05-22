@@ -7,51 +7,51 @@ export default function CaseCard({ caseItem }) {
   };
 
   return (
-    <div className="glass-card p-6 md:p-8 space-y-6 relative overflow-hidden">
-      <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+    <div className="card p-6 space-y-5">
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
         <div className="space-y-1">
-          <h3 className="text-lg font-serif font-bold text-gold-light">{caseItem.title}</h3>
-          <span className="text-xs text-gold-brass uppercase tracking-wider font-semibold block">{caseItem.type}</span>
+          <h3 className="text-lg font-serif font-bold text-navy-900">{caseItem.title}</h3>
+          <span className="badge badge-gold">{caseItem.type}</span>
         </div>
-        <button onClick={handleDownload} className="btn-gold text-xs px-4 py-2 self-start flex items-center gap-1.5">
+        <button onClick={handleDownload} className="btn-primary text-xs shrink-0">
           <Download className="w-3.5 h-3.5" />
-          DOWNLOAD CASE PACKET ({caseItem.fileSize})
+          Download ({caseItem.fileSize})
         </button>
       </div>
-      
-      <p className="text-sm text-slate-300 font-light leading-relaxed">{caseItem.desc}</p>
-      
-      {/* Prosecution / Defense Witnesses */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-slate-900 pt-6">
+
+      <p className="text-sm text-text-secondary leading-relaxed">{caseItem.desc}</p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 border-t border-surface-200 pt-5">
         <div>
-          <h4 className="text-xs uppercase tracking-widest text-gold-brass font-bold mb-3">Prosecution Witnesses</h4>
-          <ul className="space-y-2 text-sm text-slate-300">
+          <h4 className="section-title mb-3">Prosecution Witnesses</h4>
+          <ul className="space-y-2">
             {caseItem.witnesses.pros.map((w, i) => (
-              <li key={i} className="flex items-center gap-2">
-                <FileText className="w-3.5 h-3.5 text-blue-400" />
-                <span>{w}</span>
+              <li key={i} className="flex items-center gap-2 text-sm text-text-secondary">
+                <FileText className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+                {w}
               </li>
             ))}
           </ul>
         </div>
         <div>
-          <h4 className="text-xs uppercase tracking-widest text-gold-brass font-bold mb-3">Defense Witnesses</h4>
-          <ul className="space-y-2 text-sm text-slate-300">
+          <h4 className="section-title mb-3">Defense Witnesses</h4>
+          <ul className="space-y-2">
             {caseItem.witnesses.def.map((w, i) => (
-              <li key={i} className="flex items-center gap-2">
-                <FileText className="w-3.5 h-3.5 text-emerald-400" />
-                <span>{w}</span>
+              <li key={i} className="flex items-center gap-2 text-sm text-text-secondary">
+                <FileText className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                {w}
               </li>
             ))}
           </ul>
         </div>
       </div>
 
-      <div className="flex items-center gap-4 text-[10px] text-slate-muted border-t border-slate-950 pt-4">
+      <div className="flex items-center gap-3 text-[10px] text-text-muted border-t border-surface-100 pt-4">
         <span className="flex items-center gap-1">
-          <Calendar className="w-3.5 h-3.5 text-gold-brass" /> Released: {caseItem.released}
+          <Calendar className="w-3 h-3" />
+          Released: {caseItem.released}
         </span>
-        <span>•</span>
+        <span>·</span>
         <span>Official CRF-OC Sanctioned File</span>
       </div>
     </div>

@@ -46,7 +46,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Typography ──────────────────────────────────────── */
 h1, h2, h3, h4 {
   font-family: var(--font-serif);
   letter-spacing: 0.01em;
@@ -58,95 +57,207 @@ h1, h2, h3, h4 {
 ::-webkit-scrollbar-thumb { background: var(--color-surface-300); border-radius: 999px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
 
+/* ── Selection ───────────────────────────────────────── */
+::selection { background: rgba(200, 162, 78, 0.2); color: inherit; }
+
 /* ── Card ────────────────────────────────────────────── */
 .card {
   background: white;
   border: 1px solid var(--color-surface-200);
   border-radius: 12px;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,.04), 0 1px 2px -1px rgba(0,0,0,.03);
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 1px 2px -1px rgba(0,0,0,.03);
   transition: box-shadow .2s ease, border-color .2s ease;
 }
 .card:hover {
-  box-shadow: 0 4px 12px 0 rgba(0,0,0,.06), 0 1px 3px -1px rgba(0,0,0,.04);
+  box-shadow: 0 4px 12px rgba(0,0,0,.06), 0 1px 3px -1px rgba(0,0,0,.04);
 }
 
 /* ── Section Title ───────────────────────────────────── */
 .section-title {
-  @apply text-xs uppercase tracking-widest font-bold text-text-muted;
+  display: block;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--color-text-muted);
 }
 
-/* ── Badge ───────────────────────────────────────────── */
+/* ── Badges ──────────────────────────────────────────── */
 .badge {
-  @apply inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
 }
-.badge-navy { @apply bg-navy-800 text-white; }
-.badge-gold { @apply bg-gold-100 text-gold-500 border border-gold-200; }
-.badge-success { @apply bg-emerald-50 text-emerald-700 border border-emerald-200; }
-.badge-danger { @apply bg-red-50 text-red-600 border border-red-200; }
-.badge-info { @apply bg-blue-50 text-blue-600 border border-blue-200; }
-.badge-muted { @apply bg-surface-100 text-text-secondary border border-surface-200; }
+.badge-navy  { background: var(--color-navy-800); color: white; }
+.badge-gold  { background: var(--color-gold-100); color: var(--color-gold-500); border: 1px solid var(--color-gold-200); }
+.badge-success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+.badge-danger  { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+.badge-info    { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+.badge-muted   { background: var(--color-surface-100); color: var(--color-text-secondary); border: 1px solid var(--color-surface-200); }
 
 /* ── Buttons ─────────────────────────────────────────── */
-.btn {
-  @apply inline-flex items-center justify-center gap-2 font-semibold text-sm px-4 py-2.5 rounded-lg transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2;
+.btn,
+.btn-primary,
+.btn-gold,
+.btn-outline,
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.625rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1;
 }
 .btn-primary {
-  @apply btn bg-navy-800 text-white hover:bg-navy-700 focus:ring-navy-600;
+  background-color: var(--color-navy-800);
+  color: white;
+  border: none;
 }
+.btn-primary:hover { background-color: var(--color-navy-700); }
 .btn-gold {
-  @apply btn bg-gradient-to-r from-gold-500 to-gold-400 text-navy-900 hover:from-gold-400 hover:to-gold-300 focus:ring-gold-400 font-bold shadow-sm;
+  background: linear-gradient(to right, var(--color-gold-500), var(--color-gold-400));
+  color: var(--color-navy-900);
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0,0,0,.08);
+  border: none;
+}
+.btn-gold:hover {
+  background: linear-gradient(to right, var(--color-gold-400), var(--color-gold-300));
 }
 .btn-outline {
-  @apply btn bg-transparent text-navy-800 border border-surface-300 hover:bg-surface-100 hover:border-surface-300 focus:ring-navy-600;
+  background: transparent;
+  color: var(--color-navy-800);
+  border: 1px solid var(--color-surface-300);
 }
+.btn-outline:hover { background-color: var(--color-surface-100); }
 .btn-ghost {
-  @apply btn bg-transparent text-text-secondary hover:bg-surface-100 hover:text-text-primary;
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: none;
 }
+.btn-ghost:hover { background-color: var(--color-surface-100); color: var(--color-text-primary); }
 
 /* ── Form Inputs ─────────────────────────────────────── */
 .input {
-  @apply w-full bg-white border border-surface-300 rounded-lg px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted transition-all focus:outline-none focus:ring-2 focus:ring-navy-600/20 focus:border-navy-700;
+  width: 100%;
+  background: white;
+  border: 1px solid var(--color-surface-300);
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+  transition: border-color .15s ease, box-shadow .15s ease;
+  font-family: var(--font-sans);
+}
+.input::placeholder { color: var(--color-text-muted); }
+.input:focus {
+  outline: none;
+  border-color: var(--color-navy-700);
+  box-shadow: 0 0 0 3px rgba(36,51,112,.1);
 }
 select.input {
-  @apply appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%23a1a1aa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>')] bg-[length:12px] bg-[right_12px_center] bg-no-repeat pr-8;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%23a1a1aa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  padding-right: 2rem;
 }
-textarea.input {
-  @apply resize-none leading-relaxed;
-}
+textarea.input { resize: none; line-height: 1.6; }
 
 /* ── Nav link ────────────────────────────────────────── */
 .nav-item {
-  @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all cursor-pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
 }
 .nav-item-default {
-  @apply nav-item text-text-secondary hover:bg-surface-100 hover:text-text-primary;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  color: var(--color-text-secondary);
+}
+.nav-item-default:hover {
+  background-color: var(--color-surface-100);
+  color: var(--color-text-primary);
 }
 .nav-item-active {
-  @apply nav-item bg-navy-800 text-white shadow-sm;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  text-align: left;
+  background-color: var(--color-navy-800);
+  color: white;
+  box-shadow: 0 1px 2px rgba(0,0,0,.08);
 }
 
 /* ── Progress Bar ────────────────────────────────────── */
 .progress-track {
-  @apply w-full bg-surface-200 rounded-full h-2 overflow-hidden;
+  width: 100%;
+  background-color: var(--color-surface-200);
+  border-radius: 9999px;
+  height: 0.5rem;
+  overflow: hidden;
 }
 .progress-fill {
-  @apply h-full rounded-full transition-all duration-700 ease-out;
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.7s ease-out;
 }
 
 /* ── Sidebar ─────────────────────────────────────────── */
 .sidebar {
-  @apply fixed left-0 top-0 bottom-0 w-[240px] bg-white border-r border-surface-200 flex flex-col z-40;
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  width: 240px;
+  background: white;
+  border-right: 1px solid var(--color-surface-200);
+  display: flex;
+  flex-direction: column;
+  z-index: 40;
 }
 
 /* ── Gold accent line ────────────────────────────────── */
 .gold-accent {
-  @apply bg-gradient-to-r from-gold-500 to-gold-300;
-}
-
-/* ── Selection ───────────────────────────────────────── */
-::selection {
-  background: rgba(200, 162, 78, 0.2);
-  color: inherit;
+  background: linear-gradient(to right, var(--color-gold-500), var(--color-gold-300));
 }
 
 /* ── Print (for member card) ─────────────────────────── */

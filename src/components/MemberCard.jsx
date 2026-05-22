@@ -1,174 +1,139 @@
 import React, { useState } from 'react';
-import CardForm from './card/CardForm';
-import CardPreview from './card/CardPreview';
+import { Users, Gavel, Shield, Scale, Clock, Star } from 'lucide-react';
+
+const ROLES = {
+  attorney: { label: 'Attorney', icon: Gavel, color: 'badge-navy' },
+  witness: { label: 'Witness', icon: Scale, color: 'badge-gold' },
+  clerk: { label: 'Clerk', icon: Clock, color: 'badge-info' },
+  bailiff: { label: 'Bailiff', icon: Shield, color: 'badge-muted' },
+  captain: { label: 'Team Captain', icon: Star, color: 'badge-success' },
+};
+
+const TEAMS = ['Varsity Gold', 'Varsity Blue', 'Junior Varsity Black', 'Junior Varsity White'];
+
+const INITIAL_MEMBERS = [
+  { id: 1, name: "Alex Johnson", role: "attorney", team: "Varsity Gold", year: "Senior", specialty: "Prosecution Opening / Closing" },
+  { id: 2, name: "Maria Santos", role: "attorney", team: "Varsity Gold", year: "Junior", specialty: "Defense Cross-Examination" },
+  { id: 3, name: "Daniel Kim", role: "witness", team: "Varsity Gold", year: "Senior", specialty: "Jordan Clark (Defendant)" },
+  { id: 4, name: "Priya Nair", role: "witness", team: "Varsity Gold", year: "Junior", specialty: "Dr. Sterling (Expert)" },
+  { id: 5, name: "Tyler Nguyen", role: "clerk", team: "Varsity Gold", year: "Sophomore", specialty: "Timekeeping & Exhibits" },
+  { id: 6, name: "Chris Reyes", role: "captain", team: "Varsity Gold", year: "Senior", specialty: "Team Strategy Lead" },
+  { id: 7, name: "Sam Park", role: "attorney", team: "Varsity Blue", year: "Junior", specialty: "Defense Opening / Closing" },
+  { id: 8, name: "Jordan Lee", role: "witness", team: "Varsity Blue", year: "Senior", specialty: "Officer Smith (Prosecution)" },
+  { id: 9, name: "Ryan Chen", role: "bailiff", team: "Varsity Blue", year: "Sophomore", specialty: "Court Order & Oath Administration" },
+  { id: 10, name: "Aiden Walsh", role: "attorney", team: "Junior Varsity Black", year: "Freshman", specialty: "Pre-Trial & Direct Examination" },
+];
 
 export default function MemberCard() {
-  const [formData, setFormData] = useState({
-    name: "John Doe",
-    role: "Lead Trial Attorney",
-    team: "Varsity Gold",
-    academicYear: "2026 - 2027",
-    avatarIcon: "scales"
+  const [activeTeam, setActiveTeam] = useState('All');
+  const [activeRole, setActiveRole] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filtered = INITIAL_MEMBERS.filter(m => {
+    const teamMatch = activeTeam === 'All' || m.team === activeTeam;
+    const roleMatch = activeRole === 'All' || m.role === activeRole;
+    const searchMatch = m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      m.specialty.toLowerCase().includes(searchQuery.toLowerCase());
+    return teamMatch && roleMatch && searchMatch;
   });
 
-  const handleDownload = () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 675; // 3.375 * 200
-    canvas.height = 425; // 2.125 * 200
-    const ctx = canvas.getContext('2d');
-
-    // 1. Draw Background
-    const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    bgGradient.addColorStop(0, '#050814');
-    bgGradient.addColorStop(0.5, '#0a1128');
-    bgGradient.addColorStop(1, '#121f45');
-    ctx.fillStyle = bgGradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // 2. Draw Subtle Watermark Scales
-    ctx.globalAlpha = 0.04;
-    ctx.fillStyle = '#d4af37';
-    ctx.font = 'bold 200px serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('⚖️', canvas.width / 2, canvas.height / 2);
-    ctx.globalAlpha = 1.0;
-
-    // 3. Draw Outer Double Borders (Gold)
-    ctx.strokeStyle = '#c5a880';
-    ctx.lineWidth = 4;
-    ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
-    ctx.lineWidth = 1;
-    ctx.strokeRect(18, 18, canvas.width - 36, canvas.height - 36);
-
-    // 4. Header Bar
-    ctx.fillStyle = 'rgba(197, 168, 128, 0.08)';
-    ctx.fillRect(19, 19, canvas.width - 38, 60);
-    ctx.strokeStyle = 'rgba(197, 168, 128, 0.2)';
-    ctx.beginPath();
-    ctx.moveTo(19, 79);
-    ctx.lineTo(canvas.width - 19, 79);
-    ctx.stroke();
-
-    // 5. Header Typography
-    ctx.fillStyle = '#d4af37';
-    ctx.font = 'bold 15px serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('SERVITE HIGH SCHOOL MOCK TRIAL ASSOCIATION', canvas.width / 2, 45);
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '9px sans-serif';
-    ctx.fillText('CRF-OC BAR PREPARATION DIVISION', canvas.width / 2, 62);
-
-    // 6. Left Side: Avatar Box or Seal
-    ctx.fillStyle = '#050814';
-    ctx.strokeStyle = 'rgba(197, 168, 128, 0.3)';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(40, 110, 120, 140);
-    ctx.fillRect(40, 110, 120, 140);
-
-    // Draw avatar icon
-    ctx.fillStyle = '#c5a880';
-    ctx.font = '50px serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    const avatarGlyph = formData.avatarIcon === 'scales' ? '⚖️' : formData.avatarIcon === 'gavel' ? '🔨' : '🛡️';
-    ctx.fillText(avatarGlyph, 100, 180);
-
-    // 7. Right Side: Member Details
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'alphabetic';
-    
-    // Member Name
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 20px serif';
-    ctx.fillText(formData.name.toUpperCase(), 185, 135);
-
-    // Role
-    ctx.fillStyle = '#d4af37';
-    ctx.font = '12px sans-serif';
-    ctx.fillText(`ROLE: ${formData.role}`, 185, 165);
-
-    // Team
-    ctx.fillStyle = '#e2e8f0';
-    ctx.font = '11px sans-serif';
-    ctx.fillText(`TEAM TIER: ${formData.team}`, 185, 190);
-
-    // Academic Year
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '11px sans-serif';
-    ctx.fillText(`MEMBER YEAR: ${formData.academicYear}`, 185, 215);
-
-    // Status
-    ctx.fillStyle = 'rgba(16, 185, 129, 0.15)';
-    ctx.fillRect(185, 235, 140, 24);
-    ctx.strokeStyle = 'rgba(16, 185, 129, 0.3)';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(185, 235, 140, 24);
-    
-    ctx.fillStyle = '#10b981';
-    ctx.font = 'bold 10px sans-serif';
-    ctx.fillText('STATUS: ACTIVE MEMBER', 198, 251);
-
-    // 8. Bottom Bar: Justice seal and signature
-    ctx.fillStyle = 'rgba(197, 168, 128, 0.05)';
-    ctx.fillRect(19, 310, canvas.width - 38, 96);
-    ctx.strokeStyle = 'rgba(197, 168, 128, 0.2)';
-    ctx.beginPath();
-    ctx.moveTo(19, 310);
-    ctx.lineTo(canvas.width - 19, 310);
-    ctx.stroke();
-
-    // Seal details bottom-left
-    ctx.fillStyle = '#c5a880';
-    ctx.font = 'italic 10px serif';
-    ctx.fillText('Servite Legal Seals Authentic Authority', 40, 350);
-    ctx.font = '9px sans-serif';
-    ctx.fillStyle = '#94a3b8';
-    ctx.fillText('Validated under CRF-OC Rule 3.4', 40, 368);
-
-    // Signature bottom-right
-    ctx.strokeStyle = 'rgba(197, 168, 128, 0.5)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(420, 360);
-    ctx.lineTo(620, 360);
-    ctx.stroke();
-    
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '8px sans-serif';
-    ctx.fillText('OFFICIAL COUNSEL SIGNATURE', 450, 375);
-
-    // Fake cursive signature drawing
-    ctx.strokeStyle = '#c5a880';
-    ctx.lineWidth = 2;
-    ctx.font = 'italic 16px Georgia';
-    ctx.fillStyle = '#c5a880';
-    ctx.fillText(formData.name, 450, 350);
-
-    // 9. Process Export download
-    const dataUrl = canvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.download = `servite-bar-card-${formData.name.toLowerCase().replace(/\s+/g, '-')}.png`;
-    link.href = dataUrl;
-    link.click();
-  };
+  const teamCounts = TEAMS.reduce((acc, t) => {
+    acc[t] = INITIAL_MEMBERS.filter(m => m.team === t).length;
+    return acc;
+  }, {});
 
   return (
-    <div className="fade-in space-y-8">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="border-b border-slate-800 pb-5">
-        <h1 className="text-xl font-serif font-bold text-white tracking-wide">MEMBER CARD GENERATOR</h1>
-        <p className="text-xs text-slate-400">Generate a premium Servite Courtroom Bar Badge to print or share.</p>
+      <div className="card overflow-hidden">
+        <div className="h-1 gold-accent" />
+        <div className="px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-xl font-serif font-bold text-navy-900 tracking-wide">TEAM ROSTER</h1>
+            <p className="text-xs text-text-muted mt-0.5">
+              {INITIAL_MEMBERS.length} members · CRF-OC 2026–2027 Season
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Users className="w-4 h-4 text-gold-500" />
+            <span className="text-sm font-semibold text-navy-900">{filtered.length} shown</span>
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <CardForm 
-          formData={formData} 
-          setFormData={setFormData} 
-          onDownload={handleDownload} 
-        />
-        <CardPreview formData={formData} />
+      {/* Team summary cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {TEAMS.map(team => (
+          <button
+            key={team}
+            onClick={() => setActiveTeam(activeTeam === team ? 'All' : team)}
+            className={`card p-4 text-left transition-all cursor-pointer ${activeTeam === team ? 'ring-2 ring-navy-800' : 'hover:shadow-md'}`}
+          >
+            <span className="text-xl font-bold font-serif text-navy-900 block">{teamCounts[team] ?? 0}</span>
+            <span className="text-xs text-text-secondary leading-tight block mt-0.5">{team}</span>
+          </button>
+        ))}
       </div>
+
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <input
+          type="text"
+          placeholder="Search members..."
+          className="input flex-1"
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+        />
+        <div className="flex gap-1.5 flex-wrap">
+          {['All', ...Object.keys(ROLES)].map(r => (
+            <button
+              key={r}
+              onClick={() => setActiveRole(r)}
+              className={`px-3 py-2 rounded-lg text-xs font-medium border transition-all cursor-pointer capitalize ${
+                activeRole === r
+                  ? 'bg-navy-800 text-white border-navy-800'
+                  : 'bg-white text-text-secondary border-surface-300 hover:bg-surface-50'
+              }`}
+            >
+              {r === 'All' ? 'All Roles' : ROLES[r].label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Member grid */}
+      {filtered.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filtered.map(member => {
+            const roleInfo = ROLES[member.role];
+            const Icon = roleInfo?.icon ?? Users;
+            return (
+              <div key={member.id} className="card p-4 flex items-start gap-4">
+                <div className="bg-navy-800 text-gold-400 p-2.5 rounded-xl shrink-0">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-sm text-navy-900 truncate">{member.name}</h3>
+                  <div className="flex flex-wrap gap-1.5 mt-1.5">
+                    <span className={`badge ${roleInfo?.color ?? 'badge-muted'}`}>{roleInfo?.label}</span>
+                    <span className="badge badge-muted">{member.year}</span>
+                  </div>
+                  <p className="text-xs text-text-muted mt-2 leading-snug">{member.specialty}</p>
+                  <p className="text-[10px] font-semibold text-text-muted mt-1 uppercase tracking-wide">{member.team}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="card p-10 text-center text-text-muted">
+          No members match your filters.
+        </div>
+      )}
+
+      <p className="text-xs text-text-muted text-center pb-2">
+        Contact your team captain to update roster entries.
+      </p>
     </div>
   );
 }
